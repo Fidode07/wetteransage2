@@ -1,2 +1,2 @@
 # wetteransage2
-Just a simple weather forecast, for Munich. To be honest, it's just here to demonstrate how easy Google TTS and crawling is.
+Just a simple script to output the weather. The exact city is not recognized. But in itself the weather is often quite similar. 
