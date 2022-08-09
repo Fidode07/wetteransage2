@@ -1,14 +1,16 @@
 from gtts import gTTS
 from bs4 import BeautifulSoup as Bs
+from ext.ExceptionClasses import NoResult
 import requests as rq
 import pygame
 import time
-from LocationManager import Manager
+from ext.LocationManager import Manager
 
 pygame.mixer.init()
 GeoManager = Manager()
 
 # Set to True if you need Debugging Outputs!
+
 debugging: bool = True
 
 
@@ -34,7 +36,8 @@ def get_weather(weather_url) -> str:
 
 def main(weather_url) -> None:
     degree = get_weather(weather_url)
-    print(degree)
+    if debugging:
+        print(degree)
     speak(f"In {GeoManager.get_city()} sind es {degree}")
 
 
@@ -46,7 +49,7 @@ def get_crawl_url(city: str) -> str:
         raise NoResult("No city was found for your current location.")
     ul = result_groups.find_all("div", {"class": "container"})[0].find_next("ul")
     all_li = ul.find_all("li")
-    return "https://www.wetter.com/wetter_aktuell/wettervorhersage/3_tagesvorhersage/"+all_li[0].find_next('a')['href']
+    return "https://www.wetter.com/wetter_aktuell/wettervorhersage/3_tagesvorhersage"+all_li[0].find_next('a')['href']
 
 
 if __name__ == '__main__':
@@ -54,7 +57,3 @@ if __name__ == '__main__':
     if debugging:
         print(f"URL to Crawl: {crawl}")
     main(crawl)
-
-
-class NoResult(Exception):
-    pass
